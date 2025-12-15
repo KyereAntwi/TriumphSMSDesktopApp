@@ -1,1 +1,7 @@
-<Solution />
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Triumph.SMS.Remote.App/Triumph.SMS.Remote.App.csproj" />
+    <Project Path="src/Triumph.SMS.Remote.Core/Triumph.SMS.Remote.Core.csproj" />
+    <Project Path="src/Triumph.SMS.Remote.Persistence/Triumph.SMS.Remote.Persistence.csproj" />
+  </Folder>
+</Solution>
