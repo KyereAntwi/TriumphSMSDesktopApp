@@ -1,7 +1,7 @@
 <Solution>
   <Folder Name="/src/">
+    <Project Path="src/Triump.SMS.Remote.Persistence/Triump.SMS.Remote.Persistence.csproj" Id="c3d200a8-4a9e-419f-868c-16f0a35b9829" />
     <Project Path="src/Triumph.SMS.Remote.App/Triumph.SMS.Remote.App.csproj" />
     <Project Path="src/Triumph.SMS.Remote.Core/Triumph.SMS.Remote.Core.csproj" />
-    <Project Path="src/Triumph.SMS.Remote.Persistence/Triumph.SMS.Remote.Persistence.csproj" />
   </Folder>
 </Solution>
