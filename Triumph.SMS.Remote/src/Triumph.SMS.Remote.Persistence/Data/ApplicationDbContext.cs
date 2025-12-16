@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
+using Triumph.SMS.Remote.Core.ApplicationUsers;
 using Triumph.SMS.Remote.Core.Common.Entities;
 using Triumph.SMS.Remote.Core.Payments;
 using Triumph.SMS.Remote.Core.Students;
@@ -73,8 +74,16 @@ public class ApplicationDbContext : DbContext
         }
     }
 
+    #region Student Entities
     public DbSet<Student> Students => Set<Student>();
     public DbSet<ParentPhone> ParentPhones => Set<ParentPhone>();
     public DbSet<PaymentType> PaymentTypes => Set<PaymentType>();
     public DbSet<PaymentHistory> PaymentHistories => Set<PaymentHistory>();
+    #endregion
+
+    #region Staff Entities
+    public DbSet<ApplicationUser> ApplicationUsers => Set<ApplicationUser>();
+    public DbSet<PrimaryPhone> PrimaryPhones => Set<PrimaryPhone>();
+    public DbSet<Activity> Activities => Set<Activity>();
+    #endregion
 }

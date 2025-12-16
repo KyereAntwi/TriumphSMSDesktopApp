@@ -4,7 +4,7 @@ using Triumph.SMS.Remote.Core.Students.Events;
 
 namespace Triumph.SMS.Remote.Core.Students;
 
-public class Student : EntityBase<int>
+public class Student : Person
 {
     // For EF
     private Student()
@@ -13,12 +13,7 @@ public class Student : EntityBase<int>
 
     private ICollection<ParentPhone> _ParentPhones { get; set; } = new List<ParentPhone>();
     public IReadOnlyCollection<ParentPhone> ParentPhones => _ParentPhones.ToList().AsReadOnly();
-    
-    public string FirstName { get; private set; } = string.Empty;
-    public string LastName { get; private set; } = string.Empty;
-    public string? OtherNames { get; set; }
     public string? Residence { get; set; }
-    public DateTime DateOfBirth { get; private set; }
     public RecentPayment? RecentPayment { get; private set; }
     
     public Student Create(
@@ -109,10 +104,5 @@ public class Student : EntityBase<int>
         
         if (messageNotificationFeatureEnabled)
             AddDomainEvent(new StudentRetiredEvent(ToString(), ParentPhones.First()));
-    }
-
-    public override string ToString()
-    {
-        return $"{FirstName} {OtherNames ?? string.Empty} {LastName}";
     }
 }
