@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Triumph.SMS.Remote.Core.Common.Entities;
 using Triumph.SMS.Remote.Core.Students;
 
-namespace Triump.SMS.Remote.Persistence.Data;
+namespace Triumph.SMS.Remote.Persistence.Data;
 
 public class ApplicationDbContext : DbContext
 {
@@ -30,12 +30,11 @@ public class ApplicationDbContext : DbContext
 
         var result = await base.SaveChangesAsync(cancellationToken);
 
-        if (domainEvents.Count > 0)
+        if (domainEvents.Count <= 0) return result;
+        
+        foreach (var domainEvent in domainEvents)
         {
-            foreach (var domainEvent in domainEvents)
-            {
-                await _publisher.Publish(domainEvent, cancellationToken);
-            }
+            await _publisher.Publish(domainEvent, cancellationToken);
         }
 
         return result;
@@ -44,7 +43,7 @@ public class ApplicationDbContext : DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         // put sqlite file at the root of the drive C in a folder TriumphSMS
-        const string connectionString = "Data Source=C:\\TriumphSMS\\triumph_sms_remote.db";
+        const string connectionString = @"Data Source=C:\TriumphSMS\triumph_sms_remote.db";
         optionsBuilder.UseSqlite(connectionString);
     }
 
@@ -54,4 +53,5 @@ public class ApplicationDbContext : DbContext
     }
 
     public DbSet<Student> Students => Set<Student>();
+    public DbSet<ParentPhone> ParentPhones { get; set; }
 }

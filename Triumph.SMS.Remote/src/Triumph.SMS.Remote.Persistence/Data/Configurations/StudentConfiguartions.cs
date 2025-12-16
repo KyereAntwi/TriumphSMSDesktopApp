@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Triumph.SMS.Remote.Core.Students;
 
-namespace Triump.SMS.Remote.Persistence.Data.Configurations;
+namespace Triumph.SMS.Remote.Persistence.Data.Configurations;
 
 public class StudentConfiguartions : IEntityTypeConfiguration<Student>
 {
@@ -17,8 +17,19 @@ public class StudentConfiguartions : IEntityTypeConfiguration<Student>
         builder.Property(x => x.LastName)
             .IsRequired()
             .HasMaxLength(100);
+        
+        builder.Property(x => x.OtherNames)
+            .HasMaxLength(100);
 
         builder.Property(x => x.DateOfBirth)
             .IsRequired();
+        
+        builder.Property(x => x.Residence)
+            .HasMaxLength(200);
+        
+        builder.HasMany(x => x.ParentPhones)
+            .WithOne(x => x.Student!)
+            .HasForeignKey(x => x.StudentId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }
