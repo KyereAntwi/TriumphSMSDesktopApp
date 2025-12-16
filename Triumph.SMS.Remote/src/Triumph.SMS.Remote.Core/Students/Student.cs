@@ -27,7 +27,8 @@ public class Student : EntityBase<int>
         DateTime dateOfBirth,
         ParentPhone parentPhone,
         string? otherNames = null,
-        string? residence = null)
+        string? residence = null,
+        bool messageNotificationFeatureEnabled = false)
     {
         if (dateOfBirth < DateTime.UtcNow.AddYears(-120) || dateOfBirth > DateTime.UtcNow)
         {
@@ -45,7 +46,8 @@ public class Student : EntityBase<int>
         
         newStudent._ParentPhones.Add(parentPhone);
         
-        AddDomainEvent(new StudentCreatedEvent(newStudent));
+         if(messageNotificationFeatureEnabled) 
+            AddDomainEvent(new StudentCreatedEvent(newStudent));
         
         return newStudent;
     }
@@ -54,7 +56,8 @@ public class Student : EntityBase<int>
         string lastName, 
         DateTime dateOfBirth, 
         string? residence = null, 
-        string? otherNames = null)
+        string? otherNames = null,
+        bool messageNotificationFeatureEnabled = false)
     {
         FirstName = firstName;
         LastName = lastName;
@@ -63,7 +66,8 @@ public class Student : EntityBase<int>
         OtherNames = otherNames ?? OtherNames;
         UpdatedAt = DateTime.UtcNow;
         
-        AddDomainEvent(new StudentInfoUpdatedEvent(FirstName, ParentPhones.First()));
+        if(messageNotificationFeatureEnabled)
+            AddDomainEvent(new StudentInfoUpdatedEvent(FirstName, ParentPhones.First()));
     }
     public void AddParentPhone(ParentPhone parentPhone)
     {
@@ -75,7 +79,7 @@ public class Student : EntityBase<int>
         _ParentPhones.Remove(parentPhone);
         UpdatedAt = DateTime.UtcNow;
     }
-    public string MakePayment(RecentPayment recentPayment)
+    public string MakePayment(RecentPayment recentPayment, bool messageNotificationFeatureEnabled = false)
     {
         // Send domain event to record current payment in payment history
         if (RecentPayment != null)
@@ -85,15 +89,28 @@ public class Student : EntityBase<int>
         
         RecentPayment = recentPayment;
         UpdatedAt = DateTime.UtcNow;
-        
-        // Send domain event to notify that a new payment has been made
-        AddDomainEvent(new StudentPaymentMade(
-            ToString(),
-            recentPayment.Amount,
-            ParentPhones.First()));
-        
+
+        if (messageNotificationFeatureEnabled)
+        {
+            // Send domain event to notify that a new payment has been made
+            AddDomainEvent(new StudentPaymentMade(
+                ToString(),
+                recentPayment.Amount,
+                ParentPhones.First()));
+        }
+
         return RecentPayment.Id.ToString();
     }
+
+    public void RetireStudent(bool messageNotificationFeatureEnabled = false)
+    {
+        IsDeleted = true;
+        UpdatedAt = DateTime.UtcNow;
+        
+        if (messageNotificationFeatureEnabled)
+            AddDomainEvent(new StudentRetiredEvent(ToString(), ParentPhones.First()));
+    }
+
     public override string ToString()
     {
         return $"{FirstName} {OtherNames ?? string.Empty} {LastName}";

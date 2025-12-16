@@ -1,6 +1,8 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 using Triumph.SMS.Remote.Core.Common.Entities;
+using Triumph.SMS.Remote.Core.Payments;
 using Triumph.SMS.Remote.Core.Students;
 
 namespace Triumph.SMS.Remote.Persistence.Data;
@@ -13,6 +15,9 @@ public class ApplicationDbContext : DbContext
         : base(options)
     {
         _publisher = publisher;
+
+        ChangeTracker.LazyLoadingEnabled = false;
+        ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
     }
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
@@ -50,8 +55,26 @@ public class ApplicationDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
+
+        // Global query filter for soft delete - Use .IgnoreQueryFilters() to bypass
+        foreach (var entityType in modelBuilder.Model.GetEntityTypes())
+        {
+            var clrType = entityType.ClrType;
+            if(clrType == null) continue;
+
+            if (!typeof(EntityBase<int>).IsAssignableFrom(clrType)) continue;
+
+            var parameter = Expression.Parameter(clrType, "e");
+            var property = Expression.Property(parameter, nameof(EntityBase<int>.IsDeleted));
+            var isNotDeleted = Expression.Equal(property, Expression.Constant(false));
+            var lambda = Expression.Lambda(isNotDeleted, parameter);
+
+            modelBuilder.Entity(clrType).HasQueryFilter(lambda);
+        }
     }
 
     public DbSet<Student> Students => Set<Student>();
-    public DbSet<ParentPhone> ParentPhones { get; set; }
+    public DbSet<ParentPhone> ParentPhones => Set<ParentPhone>();
+    public DbSet<PaymentType> PaymentTypes => Set<PaymentType>();
+    public DbSet<PaymentHistory> PaymentHistories => Set<PaymentHistory>();
 }

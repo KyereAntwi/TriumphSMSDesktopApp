@@ -31,5 +31,9 @@ public class StudentConfiguartions : IEntityTypeConfiguration<Student>
             .WithOne(x => x.Student!)
             .HasForeignKey(x => x.StudentId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        builder
+            .HasOne(x => x.RecentPayment)
+            .WithOne(x => x.Student);
     }
 }
