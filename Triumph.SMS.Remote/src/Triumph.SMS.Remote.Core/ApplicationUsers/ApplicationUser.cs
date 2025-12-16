@@ -9,7 +9,7 @@ public class ApplicationUser : Person
     // For EF
     private ApplicationUser() {}
 
-    private ICollection<PrimaryPhone> _Contacts { get; set; }
+    private ICollection<PrimaryPhone> _Contacts { get; set; } = [];
     public IReadOnlyCollection<PrimaryPhone> Contacts => _Contacts.ToList().AsReadOnly();
 
     public string Username { get; private set; } = string.Empty;
@@ -35,7 +35,7 @@ public class ApplicationUser : Person
         
         if (roles != null)
         {
-            SetRoles(roles);
+            SetRoles(roles.ToList());
         }
 
         var newUser = new ApplicationUser
@@ -65,21 +65,40 @@ public class ApplicationUser : Person
 
     public bool HasRole(Role role)
     {
+        if (string.IsNullOrEmpty(Roles))
+        {
+            return false;
+        }
+        
         var roles = Roles.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
         return roles.Contains(role.ToString());
     }
 
-    public void SetRoles(IEnumerable<Role> roles)
+    public void SetRoles(List<Role> roles)
     {
-        foreach (var role in roles) 
+        if (roles == null || roles.Count == 0)
         {
-            if (HasRole(role)) {
-                throw new BadValuesException($"User already has role: {role}");
-            }
+            throw new EntityValidationException("Roles cannot be null");
+        }
+        
+        foreach (var role in roles.Where(HasRole))
+        {
+            throw new BadValuesException($"User already has role: {role}");
         }
 
         Roles = string.Join(',', roles.Select(r => r.ToString()));
         UpdatedAt = DateTime.UtcNow;
+    }
+    
+    public IEnumerable<Role> GetRoles() 
+    {
+        if (string.IsNullOrWhiteSpace(Roles))
+        {
+            return [];
+        }
+
+        var roles = Roles.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+        return roles.Select(Enum.Parse<Role>);
     }
 
     public void ChangePassword(string newPassword)
@@ -93,7 +112,7 @@ public class ApplicationUser : Person
         return BCrypt.Net.BCrypt.Verify(password, HashedPassword);
     }
 
-    private bool PasswordIsNotValid(string password)
+    private static bool PasswordIsNotValid(string password)
     {
         // Example password validation: at least 8 characters, one uppercase, one lowercase
         if (password.Length < 8)
@@ -102,9 +121,6 @@ public class ApplicationUser : Person
         if (!password.Any(char.IsUpper))
             return true;
 
-        if (!password.Any(char.IsLower))
-            return true;
-
-        return false;
+        return !password.Any(char.IsLower);
     }
 }

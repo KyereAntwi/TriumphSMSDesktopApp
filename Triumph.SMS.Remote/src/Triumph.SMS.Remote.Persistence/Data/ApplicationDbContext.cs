@@ -3,12 +3,13 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 using Triumph.SMS.Remote.Core.ApplicationUsers;
 using Triumph.SMS.Remote.Core.Common.Entities;
+using Triumph.SMS.Remote.Core.Common.Interfaces;
 using Triumph.SMS.Remote.Core.Payments;
 using Triumph.SMS.Remote.Core.Students;
 
 namespace Triumph.SMS.Remote.Persistence.Data;
 
-public class ApplicationDbContext : DbContext
+public class ApplicationDbContext : DbContext, IApplicationDbContext
 {
     private readonly IPublisher _publisher;
 

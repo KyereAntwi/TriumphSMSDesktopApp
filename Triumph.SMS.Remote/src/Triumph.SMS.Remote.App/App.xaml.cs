@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-
-namespace Triumph.SMS.Remote.App
+﻿namespace Triumph.SMS.Remote.App
 {
     public partial class App : Application
     {
