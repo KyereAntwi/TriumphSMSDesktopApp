@@ -17,9 +17,10 @@ public class ApplicationUser : Person
     public string HashedPassword { get; private set; } = string.Empty;
     public string? Roles { get; private set; } // e.g., "Admin,Accountact" = comma separated of the Role enum type
 
-    public ApplicationUser Register (
+    public static ApplicationUser Register (
         string firstName,
         string lastName,
+        string otherNames,
         string username,
         string? email,
         string password,
@@ -32,21 +33,22 @@ public class ApplicationUser : Person
         }
 
         var hashedPassword = BCrypt.Net.BCrypt.HashPassword(password);
-        
-        if (roles != null)
-        {
-            SetRoles(roles.ToList());
-        }
 
         var newUser = new ApplicationUser
         {
             FirstName = firstName,
             LastName = lastName,
+            OtherNames = otherNames,
             Username = username,
             Email = email,
             HashedPassword = hashedPassword,
             _Contacts = phones?.ToList() ?? []
         };
+        
+        if (roles != null)
+        {
+            newUser.Roles = string.Join(',', roles.Select(r => r.ToString()));
+        }
 
         return newUser;
     }

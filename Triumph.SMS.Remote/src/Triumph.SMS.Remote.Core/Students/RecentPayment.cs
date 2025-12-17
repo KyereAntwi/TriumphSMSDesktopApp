@@ -9,18 +9,19 @@ public class RecentPayment : EntityBase<Guid>
     // For EF
     private RecentPayment() { }
     
-    private RecentPayment(int studentId, Money amount, string paidBy, PaymentType paymentType)
+    private RecentPayment(int studentId, Money amount, string paidBy, PaymentType paymentType, string receivedBy)
     {
         Id = Guid.CreateVersion7();
         StudentId = studentId;
         Amount = amount;
         PaidBy = paidBy;
         PaymentType = paymentType;
+        ReceivedBy = receivedBy;
     }
     
-    public static RecentPayment Create(int studentId, Money amount, string paidBy, PaymentType paymentType)
+    public static RecentPayment Create(int studentId, Money amount, string paidBy, PaymentType paymentType, string receivedBy)
     {
-        return new RecentPayment(studentId, amount, paidBy, paymentType);
+        return new RecentPayment(studentId, amount, paidBy, paymentType, receivedBy);
     }
     
     public int StudentId { get; private set; }
@@ -29,4 +30,5 @@ public class RecentPayment : EntityBase<Guid>
     public Money Amount { get; private set; } = null!;
     public string PaidBy { get; private set; } = string.Empty;
     public PaymentType PaymentType { get; private set; } = null!;
+    public string ReceivedBy { get; private set; } = string.Empty;
 }

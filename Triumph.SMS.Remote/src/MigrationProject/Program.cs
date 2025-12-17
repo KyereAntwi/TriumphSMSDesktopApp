@@ -1,3 +1,4 @@
+using Triumph.SMS.Remote.Core.Common.Interfaces;
 using Triumph.SMS.Remote.Persistence.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +9,7 @@ builder.Services.AddMediatR(options =>
 });
 
 builder.Services.AddDbContext<ApplicationDbContext>();
+builder.Services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
 
 var app = builder.Build();
 

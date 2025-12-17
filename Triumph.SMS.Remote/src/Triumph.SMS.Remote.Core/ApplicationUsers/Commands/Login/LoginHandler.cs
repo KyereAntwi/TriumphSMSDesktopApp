@@ -2,6 +2,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Triumph.SMS.Remote.Core.ApplicationUsers.Enums;
 using Triumph.SMS.Remote.Core.Common.CQRS;
+using Triumph.SMS.Remote.Core.Common.Extensions;
 using Triumph.SMS.Remote.Core.Common.Interfaces;
 
 namespace Triumph.SMS.Remote.Core.ApplicationUsers.Commands.Login;
@@ -14,11 +15,9 @@ public sealed class LoginHandler(IApplicationDbContext dbContext) : IRequestHand
 {
     public async Task<LoginResult> Handle(LoginCommand command, CancellationToken cancellationToken)
     {
-        // return await 
-        //     (() => HandleLoginAsync(command, cancellationToken))
-        //     .HandleWithErrorHandlingAsync(ex => new LoginResult(null, [$"An error occurred during login: {ex.Message}"]));
-        
-        return await HandleLoginAsync(command, cancellationToken);
+        return await 
+            ((Func<Task<LoginResult>>)(() => HandleLoginAsync(command, cancellationToken)))
+            .HandleWithErrorHandlingAsync(ex => new LoginResult(null, [$"An error occurred during login: {ex.Message}"]));
     }
     
     private async Task<LoginResult> HandleLoginAsync(LoginCommand command, CancellationToken cancellationToken)

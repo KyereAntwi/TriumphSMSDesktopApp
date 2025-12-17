@@ -13,6 +13,10 @@ public class RecentPaymentConfiguration : IEntityTypeConfiguration<RecentPayment
         builder.Property(x => x.PaidBy)
             .IsRequired()
             .HasMaxLength(200);
+        
+        builder.Property(x => x.ReceivedBy)
+            .IsRequired()
+            .HasMaxLength(200);
 
         builder.HasOne(x => x.PaymentType)
             .WithMany()
