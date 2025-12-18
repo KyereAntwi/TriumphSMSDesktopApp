@@ -7,7 +7,7 @@ namespace Triumph.SMS.Remote.Core.Students;
 public class Student : Person
 {
     // For EF
-    private Student()
+    public Student()
     {
     }
 

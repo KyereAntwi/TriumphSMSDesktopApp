@@ -12,7 +12,7 @@ public class PaymentType : EntityBase<int>
         Type = type;
     }
 
-    public PaymentType Create(string type) => new PaymentType(type);
+    public static PaymentType Create(string type) => new PaymentType(type);
     
     public string Type { get; private set; } = string.Empty;
 }
