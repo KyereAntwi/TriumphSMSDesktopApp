@@ -5,6 +5,7 @@ using Triumph.SMS.Remote.Core.ApplicationUsers;
 using Triumph.SMS.Remote.Core.Common.Entities;
 using Triumph.SMS.Remote.Core.Common.Interfaces;
 using Triumph.SMS.Remote.Core.Payments;
+using Triumph.SMS.Remote.Core.SchoolConfigs;
 using Triumph.SMS.Remote.Core.Students;
 
 namespace Triumph.SMS.Remote.Persistence.Data;
@@ -86,5 +87,9 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<ApplicationUser> ApplicationUsers => Set<ApplicationUser>();
     public DbSet<PrimaryPhone> PrimaryPhones => Set<PrimaryPhone>();
     public DbSet<Activity> Activities => Set<Activity>();
+    #endregion
+
+    #region School Config Entities
+    public DbSet<SchoolInformation> SchoolInformation => Set<SchoolInformation>();
     #endregion
 }
