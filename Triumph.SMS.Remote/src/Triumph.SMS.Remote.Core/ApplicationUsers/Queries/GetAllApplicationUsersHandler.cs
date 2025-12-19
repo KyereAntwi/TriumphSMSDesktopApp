@@ -14,8 +14,10 @@ public record ApplicationUserDto(
 
 public record GetAllApplicationUsersResult(
     IEnumerable<ApplicationUserDto> Users,
-    int TotalCount,
-    IEnumerable<string>? Errors);
+    int TotalCount)
+{
+    public IEnumerable<string> Errors { get; set; } = [];
+};
 
 public record GetAllApplicationUsersQuery(
     int Page = 1,
