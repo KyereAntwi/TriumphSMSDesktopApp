@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Triumph.SMS.Remote.App.Views.LicenseRenewalPage"
+             Title="{Binding Title}">
+
+    <!-- Centering container -->
+    <Grid HorizontalOptions="Center"
+       VerticalOptions="Center"
+       RowDefinitions="Auto"
+       ColumnDefinitions="Auto">
+
+        <Border
+         StrokeShape="RoundRectangle 12"
+         StrokeThickness="0"
+         BackgroundColor="White"
+         Padding="24"
+         HorizontalOptions="Center"
+         VerticalOptions="Center"
+         WidthRequest="360">
+            <VerticalStackLayout Spacing="12"
+                              HorizontalOptions="Fill"
+                              VerticalOptions="Center">
+                <Label
+                     Text="Renew school license"
+                     FontAttributes="Bold"
+                     HorizontalOptions="Center"
+                     TextColor="Black"
+                     Margin="0,0,0,6"/>
+
+                <Picker
+                     Title="Select License Type"
+                     ItemsSource="{Binding LicenseTypes}"
+                     SelectedItem="{Binding SelectedLicenseType}"
+                     HorizontalOptions="Fill"
+                    TextColor="Black"
+                    Margin="0,6,0,0"/>
+
+                <Entry
+                     Text="{Binding LicenseKey}"
+                     Placeholder="License Key"
+                     HorizontalOptions="Fill"
+                     TextColor="Black"
+                    Margin="0,6,0,0"/>
+
+                <Button
+                     IsEnabled="{Binding IsBusy}"
+                     Text="Renew License"
+                     HorizontalOptions="Fill"
+                     Margin="0,6,0,0"
+                    Command="{Binding RenewLicenseProcessCommand}"/>
+
+            </VerticalStackLayout>
+        </Border>
+    </Grid>
+</ContentPage>

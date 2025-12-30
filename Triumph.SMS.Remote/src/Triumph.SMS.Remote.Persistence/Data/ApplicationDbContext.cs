@@ -50,8 +50,8 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        // put sqlite file at the root of the drive C in a folder TriumphSMS
-        const string connectionString = @"Data Source=C:\TriumphSMS\triumph_sms_remote.db";
+        var dbPath = Path.Combine(AppContext.BaseDirectory, "triumph_sms_remote.db");
+        var connectionString = $"Data Source={dbPath}";
         optionsBuilder.UseSqlite(connectionString);
     }
 

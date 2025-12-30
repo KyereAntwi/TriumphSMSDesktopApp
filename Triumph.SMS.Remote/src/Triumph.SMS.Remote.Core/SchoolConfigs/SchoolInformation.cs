@@ -50,13 +50,7 @@ public class SchoolInformation : EntityBase<int>
             var daysLeft = (existingActiveLisence.ExpiresOn - DateTime.UtcNow).Days;
             existingActiveLisence.ExpiresOn.AddDays(-1);
 
-            var newLisence = Lisence.Create(
-                lisence.LisenceKey,
-                lisence.IssuedOn,
-                lisence.ExpiresOn.AddDays(daysLeft)
-            );
-
-            _Lisences.Add(newLisence);
+            _Lisences.Add(lisence);
         }
         else 
         {

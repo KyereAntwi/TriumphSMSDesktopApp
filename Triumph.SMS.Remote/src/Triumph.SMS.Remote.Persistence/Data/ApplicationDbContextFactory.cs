@@ -9,8 +9,9 @@ public class ApplicationDbContextFactory : IDesignTimeDbContextFactory<Applicati
     public ApplicationDbContext CreateDbContext(string[] args)
     {
         var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
-        
-        const string connectionString = @"Data Source=C:\TriumphSMS\triumph_sms_remote.db";
+
+        var dbPath = Path.Combine(AppContext.BaseDirectory, "triumph_sms_remote.db");
+        var connectionString = $"Data Source={dbPath}";
         optionsBuilder.UseSqlite(connectionString);
 
         // Create a no-op publisher for design-time

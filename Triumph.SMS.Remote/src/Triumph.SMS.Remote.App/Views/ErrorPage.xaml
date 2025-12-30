@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Triumph.SMS.Remote.App.Views.ErrorPage"
+             xmlns:converters="clr-namespace:Triumph.SMS.Remote.App.Convertors"
+             Title="Error"
+             NavigationPage.HasBackButton="False">
+
+    <Shell.BackButtonBehavior>
+        <BackButtonBehavior IsEnabled="False" />
+    </Shell.BackButtonBehavior>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:EnumerableToBoolConverter x:Key="EnumerableToBoolConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid>
+        <!-- Centering container -->
+        <Grid HorizontalOptions="Center"
+          VerticalOptions="Center"
+          RowDefinitions="Auto"
+          ColumnDefinitions="Auto">
+
+            <!-- Errors box above the form -->
+            <Border
+            StrokeShape="RoundRectangle 8"
+            StrokeThickness="0"
+            BackgroundColor="#FFF3F3"
+            Padding="12"
+            HorizontalOptions="Fill"
+            VerticalOptions="Start"
+            Margin="0,0,0,12"
+            IsVisible="{Binding Errors, Converter={StaticResource EnumerableToBoolConverter}}">
+                <VerticalStackLayout Spacing="6" HorizontalOptions="Fill">
+                    <Label Text="Please fix the following or contact support:" FontAttributes="Bold" TextColor="#B00020" />
+                    <CollectionView ItemsSource="{Binding Errors}" SelectionMode="None">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <VerticalStackLayout
+                                    Margin="0,6,0,0">
+                                    <Label Text="{Binding .}" TextColor="#B00020" />
+                                </VerticalStackLayout>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+
+                    <Button
+                        Text="{Binding ButtonText}"
+                        HorizontalOptions="Fill"
+                        Margin="0,6,0,0"
+                        Command="{Binding GoBackCommand}"/>
+                </VerticalStackLayout>
+            </Border>
+        </Grid>
+    </Grid>
+</ContentPage>

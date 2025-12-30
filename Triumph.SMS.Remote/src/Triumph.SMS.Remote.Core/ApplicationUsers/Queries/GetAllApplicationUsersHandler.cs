@@ -30,7 +30,10 @@ public sealed class GetAllApplicationUsersHandler(IApplicationDbContext dbContex
     public async Task<GetAllApplicationUsersResult> Handle(GetAllApplicationUsersQuery query, CancellationToken cancellationToken)
     {
         return await ((Func<Task<GetAllApplicationUsersResult>>)(() => HandleQueryAsync(query, cancellationToken)))
-            .HandleWithErrorHandlingAsync(ex => new GetAllApplicationUsersResult([], 0, [$"An error occurred during registration: {ex.Message}"]));
+            .HandleWithErrorHandlingAsync(ex => new GetAllApplicationUsersResult([], 0)
+            {
+                Errors = [$"An error occurred during registration: {ex.Message}"]
+            });
     }
 
     private async Task<GetAllApplicationUsersResult> HandleQueryAsync(GetAllApplicationUsersQuery query, CancellationToken cancellationToken)
@@ -61,6 +64,6 @@ public sealed class GetAllApplicationUsersHandler(IApplicationDbContext dbContex
                 u.ToString()))
             .ToListAsync(cancellationToken);
 
-        return new GetAllApplicationUsersResult(users, totalCount, []);
+        return new GetAllApplicationUsersResult(users, totalCount);
     }
 }

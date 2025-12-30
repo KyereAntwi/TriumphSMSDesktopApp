@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Triumph.SMS.Remote.App.Views.InitializeSchoolPage"
+             Title="{Binding Title}">
+
+    <Grid>
+        <!-- Centering container -->
+        <Grid HorizontalOptions="Center"
+          VerticalOptions="Center"
+          RowDefinitions="Auto"
+          ColumnDefinitions="Auto">
+
+            <Border
+            StrokeShape="RoundRectangle 12"
+            StrokeThickness="0"
+            BackgroundColor="White"
+            Padding="24"
+            HorizontalOptions="Center"
+            VerticalOptions="Center"
+            WidthRequest="360">
+                <VerticalStackLayout Spacing="12"
+                                 HorizontalOptions="Fill"
+                                 VerticalOptions="Center">
+                    <Label
+                        Text="Initialize a new School Configuration and Information"
+                        FontAttributes="Bold"
+                        HorizontalOptions="Center"
+                        TextColor="Black"
+                        Margin="0,0,0,6"/>
+
+                    <Entry
+                        Placeholder="School Name"
+                        HorizontalOptions="Fill"
+                        TextColor="Black"
+                        Text="{Binding SchoolName, Mode=TwoWay}"/>
+
+                    <Entry
+                        Placeholder="School Logo Url"
+                        HorizontalOptions="Fill"
+                        TextColor="Black"
+                        Text="{Binding Logo, Mode=TwoWay}"/>
+
+                    <Entry
+                        Placeholder="Address"
+                        HorizontalOptions="Fill"
+                        TextColor="Black"
+                        Text="{Binding Address, Mode=TwoWay}"/>
+
+                    <Entry
+                        Placeholder="Phone Number"
+                        HorizontalOptions="Fill"
+                        TextColor="Black"
+                        Text="{Binding PhoneNumber, Mode=TwoWay}"/>
+
+                    <Entry
+                        Placeholder="Email"
+                        HorizontalOptions="Fill"
+                        TextColor="Black"
+                        Text="{Binding Email, Mode=TwoWay}"/>
+
+                    <Entry
+                        Placeholder="Website"
+                        HorizontalOptions="Fill"
+                        TextColor="Black"
+                        Text="{Binding Website, Mode=TwoWay}"/>
+
+                    <Entry
+                        Placeholder="Motto"
+                        HorizontalOptions="Fill"
+                        TextColor="Black"
+                        Text="{Binding Motto, Mode=TwoWay}"/>
+
+                    <Button
+                        Text="Submit School Infomation"
+                        HorizontalOptions="Fill"
+                        Margin="0,6,0,0"
+                        IsEnabled="{Binding IsBusy}"
+                        Command="{Binding ProcessInitializationCommand}"/>
+                    
+                </VerticalStackLayout>
+            </Border>
+        </Grid>
+    </Grid>
+</ContentPage>

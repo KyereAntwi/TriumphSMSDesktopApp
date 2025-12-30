@@ -1,3 +1,5 @@
+using Serilog;
+
 namespace Triumph.SMS.Remote.Core.Common.Extensions;
 
 public static class RequestHandlerExtensions
@@ -12,6 +14,9 @@ public static class RequestHandlerExtensions
         }
         catch (Exception ex)
         {
+            // Log the exception
+            Log.Error(ex, "An error occurred while processing the request.");
+
             return errorHandler(ex);
         }
     }

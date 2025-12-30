@@ -4,11 +4,10 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:Triumph.SMS.Remote.App"
-    Title="Triumph.SMS.Remote.App">
+    Title="Triumph School Management System - Offline Support Version">
 
     <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
-
+        Title="Login"
+        ContentTemplate="{DataTemplate local:Views.LoginPage}"
+        Route="LoginPage" />
 </Shell>
